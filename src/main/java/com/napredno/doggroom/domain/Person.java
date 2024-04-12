@@ -3,6 +3,7 @@ package com.napredno.doggroom.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -49,6 +50,12 @@ public class Person {
     }
 
     public void setFirstname(String firstname) {
+        if (firstname == null)
+            throw new NullPointerException("Firstname must not be null!");
+        if (firstname.isEmpty())
+            throw new IllegalArgumentException("Firstname must not be empty!");
+        if (firstname.length() < 2 || firstname.length() > 50 )
+            throw new IllegalArgumentException("Firstname must be between 2 and 50 characters!");
         this.firstname = firstname;
     }
 
@@ -57,6 +64,12 @@ public class Person {
     }
 
     public void setLastname(String lastname) {
+        if (lastname == null)
+            throw new NullPointerException("Lastname must not be null!");
+        if (lastname.isEmpty())
+            throw new IllegalArgumentException("Lastname must not be empty!");
+        if (lastname.length() < 2 || lastname.length() > 50 )
+            throw new IllegalArgumentException("Lastname must be between 2 and 50 characters!");
         this.lastname = lastname;
     }
 
@@ -65,6 +78,12 @@ public class Person {
     }
 
     public void setContactNumber(String contactNumber) {
+        if (contactNumber == null)
+            throw new NullPointerException("Contact number must not be null!");
+        if (contactNumber.isEmpty())
+            throw new IllegalArgumentException("Contact number must not be empty!");
+        if (!contactNumber.matches("\\d{3}\\s\\d{6,7}"))
+            throw new IllegalArgumentException("Contact number must be in format ### ######[#]!");
         this.contactNumber = contactNumber;
     }
 
@@ -93,5 +112,18 @@ public class Person {
                 ", contactNumber='" + contactNumber + '\'' +
                 ", appointmentNumber=" + appointmentNumber +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return contactNumber.equals(person.contactNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contactNumber);
     }
 }
