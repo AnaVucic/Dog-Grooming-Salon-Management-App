@@ -4,18 +4,46 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * This class is to be used as a Data Transfer Object (DTO) for class Appointment when
+ * retrieving data from API (in GET requests).
+ */
 public class GetAppointmentDTO {
 
+    /**
+     * Name of the dog who has a scheduled appointment.
+     */
     private String dogName;
+    /**
+     * Name of the owner of the dog who has a scheduled appointment.
+     */
     private String personName;
+    /**
+     * Number of appointments that the owner has scheduled so far.
+     */
     private int appointmentNumber;
 
+    /**
+     * Location of the salon where appointment is scheduled.
+     */
     private String salonLocation;
+    /**
+     * Date and time of the appointment.
+     */
     private LocalDateTime dateTime;
 
+    /**
+     * List of all the services included in the appointment.
+     */
     private List<String> serviceNames;
 
+    /**
+     * Total fee of the appointment.
+     */
     private BigDecimal totalFee;
+    /**
+     * Total duration of the appointment.
+     */
     private int totalDuration;
 
     //removed constructors
