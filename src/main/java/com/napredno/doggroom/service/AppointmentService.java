@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Appointment service used for retrieving, scheduling and cancelling appointments.
  *
- * @Author Ana Vucic
+ * @author Ana Vucic
  * @since 0.1.0
  */
 @Service

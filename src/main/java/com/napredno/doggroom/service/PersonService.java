@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Person service used for retrieving, adding, changing and deleting persons.
  *
- * @Author Ana Vucic
+ * @author Ana Vucic
  * @since 0.1.0
  */
 @Service

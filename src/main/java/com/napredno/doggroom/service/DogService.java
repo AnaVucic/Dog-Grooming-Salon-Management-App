@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Dog service used for retrieving, adding and deleting dogs.
  *
- * @Author Ana Vucic
+ * @author Ana Vucic
  * @since 0.1.0
  */
 @Service
