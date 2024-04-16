@@ -21,6 +21,9 @@ import java.util.List;
  * Total fee sums up fees from all included services.
  * Total duration sums up durations from all included services.
  * The Appointment class is annotated with @Entity, indicating that it is a JPA entity.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
  */
 
 @Entity

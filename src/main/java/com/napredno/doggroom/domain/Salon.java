@@ -8,6 +8,9 @@ import jakarta.persistence.*;
  * A salon must have an address as String.
  * A salon must have a City its in, of type City.
  * The Salon class is annotated with @Entity, indicating that it is a JPA entity.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
  */
 @Entity
 public class Salon {

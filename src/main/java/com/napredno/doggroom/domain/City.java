@@ -11,6 +11,9 @@ import java.util.List;
  * City must have its name as String.
  * All salons in one city are represented by a List of type Salon.
  * The City class is annotated with @Entity, indicating that it is a JPA entity.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
  */
 
 @Entity

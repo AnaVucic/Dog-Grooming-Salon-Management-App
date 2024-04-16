@@ -12,6 +12,9 @@ import java.util.List;
  * Service fee is represented with a BigDecimal.
  * Service duration represents estimated duration of a service in minutes as int.
  * The Service class is annotated with @Entity, indicating that it is a JPA entity.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
  */
 
 @Entity
