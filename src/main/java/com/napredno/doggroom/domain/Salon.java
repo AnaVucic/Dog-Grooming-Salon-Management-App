@@ -2,51 +2,112 @@ package com.napredno.doggroom.domain;
 
 import jakarta.persistence.*;
 
+/**
+ * Represents a salon in which an Appointment is scheduled.
+ * Salon is identified with salonID.
+ * A salon must have an address as String.
+ * A salon must have a City its in, of type City.
+ * The Salon class is annotated with @Entity, indicating that it is a JPA entity.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
+ */
 @Entity
 public class Salon {
 
+    /**
+     * Salon's ID as a Long.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "salon_id")
     private Long salonID;
+
+    /**
+     * Salon's address as String.
+     */
     private String address;
+
+    /**
+     * Salon's city.
+     * A salon must have exactly one City.
+     */
     @ManyToOne
     @JoinColumn(name = "zip_code")
     private City city;
+
+    /**
+     *  Non-parameterized constructor for class Salon.
+     */
     public Salon() {
     }
 
+    /**
+     * Parameterized constructor for class Salon.
+     * @param salonID Salon's ID as Long
+     * @param address Salon's address as String
+     * @param city Salon's city of type City
+     */
     public Salon(Long salonID, String address, City city) {
         this.salonID = salonID;
         this.address = address;
         this.city = city;
     }
 
+    /**
+     * Parameterized constructor for class Salon.
+     * @param address Salon's address as String
+     * @param city Salon's city of type City
+     */
     public Salon(String address, City city) {
         this.address = address;
         this.city = city;
     }
 
+    /**
+     * Returns salon's ID.
+     * @return Salon's ID as Long.
+     */
     public Long getSalonID() {
         return salonID;
     }
 
+    /**
+     * Sets salon's ID.
+     * @param salonID Salon's ID as Long
+     */
     public void setSalonID(Long salonID) {
         this.salonID = salonID;
     }
 
+    /**
+     * Returns salon's address.
+     * @return Salon's address as String.
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Sets salon's ID.
+     * @param address Salon's address as String
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * Returns salon's City.
+     * @return Salon's city of type City.
+     */
     public City getCity() {
         return city;
     }
 
+    /**
+     * Sets salon's city.
+     * @param city Salon's city of type City
+     */
     public void setCity(City city) {
         this.city = city;
     }

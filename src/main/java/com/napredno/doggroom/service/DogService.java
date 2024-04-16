@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Dog service used for retrieving, adding and deleting dogs.
+ *
+ * @author Ana Vucic
+ * @since 0.1.0
+ */
 @Service
 public class DogService {
 
@@ -26,10 +32,27 @@ public class DogService {
         this.breedRepository = breedRepository;
     }
 
+    /**
+     * Returns a list of all dogs in the system.
+     * @return All dogs in a List of type Dog
+     */
     public List<Dog> getAllDogs () {
         return dogRepository.findAll();
     }
 
+    /**
+     * Creates a new dog. Saves new dog in database.
+     *
+     * @param name Dog's name as String
+     * @param personID Dog's owner ID as Long
+     * @param breedID Dog's breed ID as Long
+     *
+     * @return Dog data that was saved in database
+     *
+     * @throws IllegalArgumentException person with  given ID cannot be found in database
+     * @throws IllegalArgumentException breed with  given ID cannot be found in database
+     * @throws IllegalArgumentException dog's name is null or less than 2 characters long
+     */
     public Dog addDog(String name, Long personID, Long breedID){
         Optional<Person> p = personRepository.findById(personID);
         Optional<Breed> b = breedRepository.findById(breedID);
@@ -52,6 +75,13 @@ public class DogService {
         return dogRepository.save(d);
     }
 
+    /**
+     * Removes a dog from database.
+     *
+     * @param dogID ID of the dog to be removed
+     *
+     * @throws IllegalStateException dog with given ID cannot be found in database
+     */
     public void deleteDog(Long dogID) {
         boolean exists = dogRepository.existsById(dogID);
         if (!exists) {
