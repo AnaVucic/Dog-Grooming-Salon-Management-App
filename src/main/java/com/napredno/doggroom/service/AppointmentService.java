@@ -17,6 +17,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Appointment service used for retrieving, scheduling and cancelling appointments.
+ *
+ * @Author Ana Vucic
+ * @since 0.1.0
+ */
 @Service
 public class AppointmentService {
 
@@ -45,6 +51,11 @@ public class AppointmentService {
         this.modelMapper = modelMapper;
     }
 
+    /**
+     * Returns a list of all appointments currently scheduled in the system.
+     *
+     * @return All appointments in a List of type GetAppointmentDTO
+     */
     public List<GetAppointmentDTO> getAllAppointments(){
         List<Appointment> appointments = new ArrayList<>();
         for (Appointment appointment: appointmentRepository.findAll()) {
@@ -56,6 +67,17 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Schedules a new appointment. Save new appointment in database.
+     *
+     * @param postAppointmentDTO A DTO of type postAppointmentDTO containing necessary data for scheduling an appointment
+     * @return Appointment data that was saved in database
+     *
+     * @throws IllegalArgumentException dog in PostAppointmentDTO cannot be found in database
+     * @throws IllegalArgumentException salon in PostAppointmentDTO cannot be found in database
+     * @throws IllegalArgumentException no services have been passed in PostAppointmentDTO
+     * @throws IllegalArgumentException service in PostAppointmentDTO cannot be found in database
+     */
     public PostAppointmentDTO addAppointment (PostAppointmentDTO postAppointmentDTO){
         Appointment a = new Appointment();
 
@@ -113,6 +135,13 @@ public class AppointmentService {
         return postAppointmentDTO;
     }
 
+    /**
+     * Cancels a scheduled appointment. Removes it from database.
+     *
+     * @param appointmentID ID of the appointment to be canceled
+     *
+     * @throws IllegalArgumentException appointment with given ID cannot be found in database
+     */
     public void deleteAppointment(Long appointmentID) {
         boolean exists = appointmentRepository.existsById(appointmentID);
         if (!exists) {
