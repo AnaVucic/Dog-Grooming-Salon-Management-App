@@ -3,6 +3,8 @@ package com.napredno.doggroom.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 public class Dog {
 
@@ -40,6 +42,8 @@ public class Dog {
     }
 
     public void setDogID(Long dogID) {
+        if (dogID == null)
+            throw new NullPointerException("ID must not be null!");
         this.dogID = dogID;
     }
 
@@ -48,6 +52,8 @@ public class Dog {
     }
 
     public void setPerson(Person person) {
+        if (person == null)
+            throw new NullPointerException("Person must not be null!");
         this.person = person;
     }
 
@@ -56,6 +62,8 @@ public class Dog {
     }
 
     public void setBreed(Breed breed) {
+        if (breed == null)
+            throw new NullPointerException("Breed must not be null!");
         this.breed = breed;
     }
 
@@ -64,6 +72,12 @@ public class Dog {
     }
 
     public void setName(String name) {
+        if (name == null)
+            throw new NullPointerException("Name must not be null!");
+        if (name.isEmpty())
+            throw new IllegalArgumentException("Name must not be empty!");
+        if (name.length() < 2 || name.length() > 50 )
+            throw new IllegalArgumentException("Name must be between 2 and 50 characters!");
         this.name = name;
     }
 
@@ -75,5 +89,18 @@ public class Dog {
                 ", breed=" + breed +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dog dog = (Dog) o;
+        return dogID.equals(dog.dogID) && name.equals(dog.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dogID, person, breed, name);
     }
 }

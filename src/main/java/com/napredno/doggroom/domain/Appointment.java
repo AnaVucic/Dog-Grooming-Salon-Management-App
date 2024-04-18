@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Appointment {
@@ -67,6 +68,8 @@ public class Appointment {
     }
 
     public void setAppointmentID(Long appointmentID) {
+        if (appointmentID == null)
+            throw new NullPointerException("ID must not be null!");
         this.appointmentID = appointmentID;
     }
 
@@ -75,6 +78,10 @@ public class Appointment {
     }
 
     public void setDateTime(LocalDateTime dateTime) {
+        if (dateTime == null)
+            throw new NullPointerException("Date and time must not be null!");
+        if (dateTime.isBefore(LocalDateTime.now().plusHours(24L)))
+            throw new IllegalArgumentException("Date and time must not be before 24h from now!");
         this.dateTime = dateTime;
     }
 
@@ -83,6 +90,8 @@ public class Appointment {
     }
 
     public void setDog(Dog dog) {
+        if (dog == null)
+            throw new NullPointerException("Dog must not be null!");
         this.dog = dog;
     }
 
@@ -91,14 +100,18 @@ public class Appointment {
     }
 
     public void setSalon(Salon salon) {
+        if (salon == null)
+            throw new NullPointerException("Salon must not be null!");
         this.salon = salon;
     }
 
-    public BigDecimal getTotalFee() {
-        return totalFee;
-    }
+    public BigDecimal getTotalFee() { return totalFee; }
 
     public void setTotalFee(BigDecimal totalFee) {
+        if (totalFee == null)
+            throw new NullPointerException("Total fee must not be null!");
+        if (totalFee.compareTo(new BigDecimal(0)) <= 0)
+            throw new IllegalArgumentException("Total fee must not be less or equal to 0!");
         this.totalFee = totalFee;
     }
 
@@ -107,6 +120,8 @@ public class Appointment {
     }
 
     public void setTotalDuration(int totalDuration) {
+        if(totalDuration <= 0)
+            throw new IllegalArgumentException("Total duration must not be less or equal to 0!");
         this.totalDuration = totalDuration;
     }
 
@@ -115,11 +130,12 @@ public class Appointment {
     }
 
     public void setServices(List<Service> services) {
+        if (services == null)
+            throw new NullPointerException("Services must not be null!");
+        if (services.isEmpty())
+            throw new IllegalArgumentException("Services size must be at least 1!");
         this.services = services;
     }
-
-
-
 
     @Override
     public String toString() {
@@ -131,5 +147,18 @@ public class Appointment {
                 ", totalFee=" + totalFee +
                 ", totalDuration=" + totalDuration +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return totalDuration == that.totalDuration && appointmentID.equals(that.appointmentID) && dateTime.equals(that.dateTime) && dog.equals(that.dog) && salon.equals(that.salon) && totalFee.equals(that.totalFee) && services.equals(that.services);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(appointmentID, dateTime, dog, salon, totalFee, totalDuration, services);
     }
 }
