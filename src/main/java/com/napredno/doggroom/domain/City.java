@@ -73,6 +73,10 @@ public class City {
     /**
      * Sets city's zip code.
      * @param zipCode City's zip code as String
+     * @throws NullPointerException Zip code is null
+     * @throws IllegalArgumentException Zip code is an empty String
+     * @throws IllegalArgumentException Zip code length is not 5
+     * @throws IllegalArgumentException Zip code consists of non-numeric characters
      */
     public void setZipCode(String zipCode) {
         if (zipCode == null)
@@ -97,6 +101,9 @@ public class City {
     /**
      * Sets city's name.
      * @param name City's name as String
+     * @throws NullPointerException City name is null
+     * @throws IllegalArgumentException City name is an empty String
+     * @throws IllegalArgumentException City name is not of length 3-30
      */
     public void setName(String name) {
         if (name == null)

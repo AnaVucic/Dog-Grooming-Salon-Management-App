@@ -100,6 +100,7 @@ public class Service {
     /**
      * Sets service's ID.
      * @param serviceID Service's ID as Long
+     * @throws NullPointerException Service ID is null
      */
     public void setServiceID(Long serviceID) {
         if (serviceID == null)
@@ -134,6 +135,9 @@ public class Service {
     /**
      * Sets service's name.
      * @param name Service's name as String
+     * @throws NullPointerException Service name is null
+     * @throws IllegalArgumentException Service name is an empty String
+     * @throws IllegalArgumentException Service name is not of length 2-20
      */
     public void setName(String name) {
         if (name == null)
@@ -156,6 +160,8 @@ public class Service {
     /**
      * Sets service's fee.
      * @param fee Service's fee as BigDecimal
+     * @throws NullPointerException Service fee is null
+     * @throws IllegalArgumentException Service fee is less or equal to 0
      */
     public void setFee(BigDecimal fee) {
         if (fee == null)
@@ -176,6 +182,7 @@ public class Service {
     /**
      * Sets service's duration.
      * @param duration Service's duration as int
+     * @throws IllegalArgumentException Service duration is less or equal to 0
      */
     public void setDuration(int duration) {
         if(duration <= 0)

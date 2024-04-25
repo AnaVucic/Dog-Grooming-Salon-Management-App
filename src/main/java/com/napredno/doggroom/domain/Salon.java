@@ -77,6 +77,7 @@ public class Salon {
     /**
      * Sets salon's ID.
      * @param salonID Salon's ID as Long
+     * @throws NullPointerException Salon ID is null
      */
     public void setSalonID(Long salonID) {
         if (salonID == null)
@@ -95,6 +96,9 @@ public class Salon {
     /**
      * Sets salon's ID.
      * @param address Salon's address as String
+     * @throws NullPointerException Address is null
+     * @throws IllegalArgumentException Address is an empty String
+     * @throws IllegalArgumentException Address is not of length 5-50
      */
     public void setAddress(String address) {
         if (address == null)
@@ -117,6 +121,7 @@ public class Salon {
     /**
      * Sets salon's city.
      * @param city Salon's city of type City
+     * @throws NullPointerException City is null
      */
     public void setCity(City city) {
         if (city == null)

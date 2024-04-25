@@ -65,6 +65,7 @@ public class Breed {
     /**
      * Sets breed's ID.
      * @param breedID Breed's ID as Long
+     * @throws NullPointerException Breed ID is null
      */
     public void setBreedID(Long breedID) {
         if (breedID == null)
@@ -83,6 +84,9 @@ public class Breed {
     /**
      * Sets breed's name.
      * @param name Breed's name as String
+     * @throws NullPointerException Breed name is null
+     * @throws IllegalArgumentException Breed name is an empty String
+     * @throws IllegalArgumentException Breed name is not of length 3-30
      */
     public void setName(String name) {
         if (name == null)

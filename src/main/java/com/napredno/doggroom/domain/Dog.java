@@ -92,6 +92,7 @@ public class Dog {
     /**
      * Sets dog's ID.
      * @param dogID Dog's ID as Long
+     * @throws NullPointerException Dog ID is null
      */
     public void setDogID(Long dogID) {
         if (dogID == null)
@@ -110,6 +111,7 @@ public class Dog {
     /**
      * Sets dog's owner of type Person.
      * @param person Dog's owner of type Person
+     * @throws NullPointerException Person is null
      */
     public void setPerson(Person person) {
         if (person == null)
@@ -128,6 +130,7 @@ public class Dog {
     /**
      * Sets dog's breed of type Breed.
      * @param breed Dog's breed of type Breed
+     * @throws NullPointerException Breed is null
      */
     public void setBreed(Breed breed) {
         if (breed == null)
@@ -146,6 +149,9 @@ public class Dog {
     /**
      * Sets dog's name as String.
      * @param name Dog's name as String
+     * @throws NullPointerException Dog name is null
+     * @throws IllegalArgumentException Dog name is an empty String
+     * @throws IllegalArgumentException Dog name is not af length 2-50
      */
     public void setName(String name) {
         if (name == null)

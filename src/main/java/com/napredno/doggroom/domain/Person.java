@@ -117,6 +117,9 @@ public class Person {
     /**
      * Sets person's first name.
      * @param firstname Person's first name
+     * @throws NullPointerException First name is null
+     * @throws IllegalArgumentException First name is an empty String
+     * @throws IllegalArgumentException First name is not of length 2-50
      */
     public void setFirstname(String firstname) {
         if (firstname == null)
@@ -137,6 +140,9 @@ public class Person {
     /**
      * Sets person's first name.
      * @param lastname Person's last name
+     * @throws NullPointerException Last name is null
+     * @throws IllegalArgumentException Last name is an empty String
+     * @throws IllegalArgumentException Last name is not of length 2-50
      */
     public void setLastname(String lastname) {
         if (lastname == null)
@@ -159,6 +165,9 @@ public class Person {
     /**
      * Sets person's contact number.
      * @param contactNumber Person's contact number
+     * @throws NullPointerException Contact number is null
+     * @throws IllegalArgumentException Contact number is an empty String
+     * @throws IllegalArgumentException Contact number is not is format ### ######[#]
      */
     public void setContactNumber(String contactNumber) {
         if (contactNumber == null)
