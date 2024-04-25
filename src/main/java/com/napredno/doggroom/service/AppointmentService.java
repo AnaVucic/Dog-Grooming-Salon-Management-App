@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -46,14 +45,21 @@ public class AppointmentService {
     }
 
     public List<GetAppointmentDTO> getAllAppointments(){
-        List<Appointment> appointments = new ArrayList<>();
-        for (Appointment appointment: appointmentRepository.findAll()) {
-            appointment.setServices(serviceRepository.findServiceByAppointmentsAppointmentID(appointment.getAppointmentID()));
-            appointments.add(appointment);
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<Appointment> response = new ArrayList<>();
+        for (Appointment appointment: appointments) {
+            List<com.napredno.doggroom.domain.Service> services =
+                    serviceRepository.findServiceByAppointmentsAppointmentID(appointment.getAppointmentID());
+            appointment.setServices(services);
+            response.add(appointment);
         }
-        return appointments.stream()
-                .map(this::toGetDTO)
-                .collect(Collectors.toList());
+        List<GetAppointmentDTO> dtos = new ArrayList<>();
+        for (Appointment a : response)
+            dtos.add(toGetDTO(a));
+        return dtos;
+//        return appointments.stream()
+//                .map(this::toGetDTO)
+//                .collect(Collectors.toList());
     }
 
     public PostAppointmentDTO addAppointment (PostAppointmentDTO postAppointmentDTO){
@@ -88,8 +94,14 @@ public class AppointmentService {
         if(!invalidServiceIDs.isEmpty()) {
             throw new IllegalArgumentException("Services with IDs: " + invalidServiceIDs + " do not exist!");
         }
-        List<com.napredno.doggroom.domain.Service> services = serviceRepository
-                .findAllById(() -> postAppointmentDTO.getServiceIDs().iterator());
+//        List<com.napredno.doggroom.domain.Service> services = serviceRepository
+//                .findAllById(() -> postAppointmentDTO.getServiceIDs().iterator());
+        List<com.napredno.doggroom.domain.Service> services = new ArrayList<>();
+        for(Long id : postedServiceIDs){{
+            Optional<com.napredno.doggroom.domain.Service> optService = serviceRepository.findById(id);
+            services.add(optService.get());
+        }}
+
 
         a.setServices(services);
 
@@ -108,9 +120,18 @@ public class AppointmentService {
         p.setAppointmentNumber(p.getAppointmentNumber() + 1);
         personRepository.save(p);
 
-        System.out.println(a);
-        appointmentRepository.save(a);
-        return postAppointmentDTO;
+        Appointment newAppointment = appointmentRepository.save(a);
+
+        PostAppointmentDTO responseAppointment = new PostAppointmentDTO();
+        responseAppointment.setDateTime(newAppointment.getDateTime());
+        responseAppointment.setDogID(newAppointment.getDog().getDogID());
+        responseAppointment.setSalonID(newAppointment.getSalon().getSalonID());
+        List<Long> responseServices = new ArrayList<>();
+        for (com.napredno.doggroom.domain.Service service :newAppointment.getServices())
+            responseServices.add(service.getServiceID());
+        responseAppointment.setServiceIDs(responseServices);
+
+        return responseAppointment;
     }
 
     public void deleteAppointment(Long appointmentID) {
@@ -133,17 +154,24 @@ public class AppointmentService {
         GetAppointmentDTO dto = modelMapper.map(a, GetAppointmentDTO.class);
 
         List<String> serviceNames = new ArrayList<>();
+        int totalDuration = 0;
+        BigDecimal totalFee = new BigDecimal(0);
         for (com.napredno.doggroom.domain.Service service : a.getServices()) {
             String serviceName = service.getName();
             serviceNames.add(serviceName);
+            totalFee = totalFee.add(service.getFee());
+            totalDuration += service.getDuration();
         }
         dto.setServiceNames(serviceNames);
+        dto.setTotalFee(totalFee);
+        dto.setTotalDuration(totalDuration);
         dto.setDogName(a.getDog().getName());
         dto.setPersonName(a.getDog().getPerson().getFirstname()
                 + " "
                 + a.getDog().getPerson().getLastname());
         dto.setAppointmentNumber(a.getDog().getPerson().getAppointmentNumber());
         dto.setSalonLocation(a.getSalon().getAddress() + ", " + a.getSalon().getCity().getName());
+        dto.setDateTime(a.getDateTime());
         return dto;
     }
 

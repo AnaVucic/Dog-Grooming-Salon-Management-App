@@ -54,10 +54,14 @@ public class PersonService {
 
     @Transactional
     public Person updatePerson(Long personID, String firstname, String lastname, String contactNumber) {
-        Person person = personRepository.findById(personID)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Person wiht id " + personID + " does not exist."
-                ));
+        Optional<Person> p = personRepository.findById(personID);
+
+        if (p.isEmpty()) {
+            throw new IllegalArgumentException("Person with id " + personID + " does not exist.");
+        }
+
+        Person person = p.get();
+
         if (firstname != null && firstname.length() >= 2 && !Objects.equals(person.getFirstname(), firstname)){
             person.setFirstname(firstname);
         }

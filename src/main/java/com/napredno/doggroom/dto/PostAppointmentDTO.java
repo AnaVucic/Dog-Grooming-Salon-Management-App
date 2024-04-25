@@ -41,4 +41,14 @@ public class PostAppointmentDTO {
     public void setServiceIDs(List<Long> serviceIDs) {
         this.serviceIDs = serviceIDs;
     }
+
+    @Override
+    public String toString() {
+        return "PostAppointmentDTO{" +
+                "dogID=" + dogID +
+                ", salonID=" + salonID +
+                ", dateTime=" + dateTime +
+                ", serviceIDs=" + serviceIDs +
+                '}';
+    }
 }

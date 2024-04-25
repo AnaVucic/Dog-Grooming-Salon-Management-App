@@ -137,6 +137,19 @@ public class Appointment {
         this.services = services;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Appointment{" +
+//                "appointmentID=" + appointmentID +
+//                ", dateTime=" + dateTime +
+//                ", dog=" + dog +
+//                ", salon=" + salon +
+//                ", totalFee=" + totalFee +
+//                ", totalDuration=" + totalDuration +
+//                '}';
+//    }
+
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -146,6 +159,7 @@ public class Appointment {
                 ", salon=" + salon +
                 ", totalFee=" + totalFee +
                 ", totalDuration=" + totalDuration +
+                ", services=" + services +
                 '}';
     }
 
