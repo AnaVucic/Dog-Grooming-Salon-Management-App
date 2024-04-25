@@ -2,6 +2,8 @@ package com.napredno.doggroom.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 /**
  * Represents a salon in which an Appointment is scheduled.
  * Salon is identified with salonID.
@@ -77,6 +79,8 @@ public class Salon {
      * @param salonID Salon's ID as Long
      */
     public void setSalonID(Long salonID) {
+        if (salonID == null)
+            throw new NullPointerException("ID must not be null!");
         this.salonID = salonID;
     }
 
@@ -93,6 +97,12 @@ public class Salon {
      * @param address Salon's address as String
      */
     public void setAddress(String address) {
+        if (address == null)
+            throw new NullPointerException("Address must not be null!");
+        if (address.isEmpty())
+            throw new IllegalArgumentException("Address must not be empty!");
+        if (address.length() < 5 || address.length() > 50 )
+            throw new IllegalArgumentException("Address must be between 5 and 50 characters!");
         this.address = address;
     }
 
@@ -109,6 +119,8 @@ public class Salon {
      * @param city Salon's city of type City
      */
     public void setCity(City city) {
+        if (city == null)
+            throw new NullPointerException("City must not be null!");
         this.city = city;
     }
 
@@ -119,5 +131,18 @@ public class Salon {
                 ", address='" + address + '\'' +
                 ", city=" + city +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Salon salon = (Salon) o;
+        return salonID.equals(salon.salonID) && address.equals(salon.address) && city.equals(salon.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(salonID, address, city);
     }
 }

@@ -111,4 +111,20 @@ public class GetAppointmentDTO {
     public void setTotalDuration(int totalDuration) {
         this.totalDuration = totalDuration;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "GetAppointmentDTO{" +
+                "dogName='" + dogName + '\'' +
+                ", personName='" + personName + '\'' +
+                ", appointmentNumber=" + appointmentNumber +
+                ", salonLocation='" + salonLocation + '\'' +
+                ", dateTime=" + dateTime +
+                ", serviceNames=" + serviceNames +
+                ", totalFee=" + totalFee +
+                ", totalDuration=" + totalDuration +
+                '}';
+    }
 }
