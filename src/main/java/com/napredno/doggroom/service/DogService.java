@@ -1,5 +1,8 @@
 package com.napredno.doggroom.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.napredno.doggroom.domain.Breed;
 import com.napredno.doggroom.domain.Dog;
 import com.napredno.doggroom.domain.Person;
@@ -9,6 +12,10 @@ import com.napredno.doggroom.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,8 +78,32 @@ public class DogService {
         d.setName(name);
         d.setPerson(p.get());
         d.setBreed(b.get());
-        System.out.println(d);
-        return dogRepository.save(d);
+
+        Dog newDog = dogRepository.save(d);
+
+        //-- JSON --//
+        String path = "C:\\Users\\ANA\\Desktop\\json\\dogs\\";
+        try (PrintWriter out = new PrintWriter(path + "dog_" + newDog.getDogID() + ".json");
+             PrintWriter out2 = new PrintWriter(new FileOutputStream(path + "all_dogs.json", true))
+        ) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            JsonObject jsonDog = new JsonObject();
+            jsonDog.addProperty("id", newDog.getDogID());
+            jsonDog.addProperty("name", newDog.getName());
+            JsonObject jsonPerson = new JsonObject();
+            jsonPerson.addProperty("id", newDog.getPerson().getPersonID());
+            jsonPerson.addProperty("firstname", newDog.getPerson().getFirstname());
+            jsonPerson.addProperty("lastname", newDog.getPerson().getLastname());
+            jsonPerson.addProperty("contact_number", newDog.getPerson().getContactNumber());
+            jsonDog.add("person", jsonPerson);
+            jsonDog.addProperty("breed", newDog.getBreed().getName());
+
+            out.write(gson.toJson(jsonDog));
+            out2.append(gson.toJson(jsonDog));
+        } catch (IOException e) { e.printStackTrace(); }
+
+        return newDog;
     }
 
     /**
@@ -87,6 +118,12 @@ public class DogService {
         if (!exists) {
             throw new IllegalStateException("Dog with ID " + dogID + " does not exist");
         }
+
+        //-- Deleting the file --//
+        String path = "C:\\Users\\ANA\\Desktop\\json\\dogs\\";
+        File file = new File(path + "dog_" + dogID + ".json");
+        file.delete();
+
         dogRepository.deleteById(dogID);
     }
 }

@@ -1,6 +1,7 @@
 package com.napredno.doggroom.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.gson.annotations.SerializedName;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class Person {
     /**
      * Person's ID as a Long.
      */
+    @SerializedName("id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id")
@@ -57,7 +59,7 @@ public class Person {
      */
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonManagedReference
-    private Set<Dog> dogs;
+    private  Set<Dog> dogs;
 
     /**
      *  Non-parameterized constructor for class Person.

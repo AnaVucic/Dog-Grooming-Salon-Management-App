@@ -1,11 +1,17 @@
 package com.napredno.doggroom.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.napredno.doggroom.domain.Person;
 import com.napredno.doggroom.repository.PersonRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,7 +68,20 @@ public class PersonService {
             throw new IllegalArgumentException("Person's contact number must be of format ### ######[#]!");
         }
 
-        return personRepository.save(person);
+        Person newPerson = personRepository.save(person);
+
+        String path = "C:\\Users\\ANA\\Desktop\\json\\persons\\";
+        try (PrintWriter out = new PrintWriter(path + "person_" + newPerson.getPersonID() + ".json");
+             PrintWriter out2 = new PrintWriter(new FileOutputStream(path + "all_persons.json", true))
+        ) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            out.write(gson.toJson(newPerson));
+            out2.append(gson.toJson(newPerson));
+
+        } catch (IOException e) { e.printStackTrace(); }
+
+        return newPerson;
     }
 
     /**
@@ -77,6 +96,12 @@ public class PersonService {
         if (!exists) {
             throw new IllegalStateException("Person with ID " + personID + " does not exist!");
         }
+
+        //-- Deleting the file --//
+        String path = "C:\\Users\\ANA\\Desktop\\json\\persons\\";
+        File file = new File(path + "person_" + personID + ".json");
+        file.delete();
+
         personRepository.deleteById(personID);
     }
 

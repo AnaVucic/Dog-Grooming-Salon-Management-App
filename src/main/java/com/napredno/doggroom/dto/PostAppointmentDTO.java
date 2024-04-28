@@ -1,5 +1,7 @@
 package com.napredno.doggroom.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,18 +14,22 @@ public class PostAppointmentDTO {
     /**
      * The ID of the Dog associated with appointment.
      */
+    @SerializedName("dog_id")
     private Long dogID;
     /**
      * The ID of the Salon associated with appointment.
      */
+    @SerializedName("salon_id")
     private Long salonID;
     /**
      * Date and time at which the appointment is to be scheduled.
      */
+    @SerializedName("date_time")
     private LocalDateTime dateTime;
     /**
      * List of services to be included in the appointment.
      */
+    @SerializedName("service_ids")
     private List<Long> serviceIDs;
 
     public Long getDogID() {

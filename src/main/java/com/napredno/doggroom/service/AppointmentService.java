@@ -1,5 +1,7 @@
 package com.napredno.doggroom.service;
 
+import com.napredno.doggroom.util.LocalDateTimeSerializer;
+import com.google.gson.*;
 import com.napredno.doggroom.domain.Appointment;
 import com.napredno.doggroom.domain.Dog;
 import com.napredno.doggroom.domain.Person;
@@ -11,7 +13,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,9 +75,6 @@ public class AppointmentService {
         for (Appointment a : response)
             dtos.add(toGetDTO(a));
         return dtos;
-//        return appointments.stream()
-//                .map(this::toGetDTO)
-//                .collect(Collectors.toList());
     }
 
     /**
@@ -102,7 +106,7 @@ public class AppointmentService {
 
         a.setDateTime(postAppointmentDTO.getDateTime());
 
-        // Adding services to an appointment
+        //-- Adding services to an appointment --//
         List<Long> postedServiceIDs = postAppointmentDTO.getServiceIDs();
         List<Long> invalidServiceIDs = new ArrayList<>();
         if(postedServiceIDs.isEmpty()) {
@@ -116,8 +120,6 @@ public class AppointmentService {
         if(!invalidServiceIDs.isEmpty()) {
             throw new IllegalArgumentException("Services with IDs: " + invalidServiceIDs + " do not exist!");
         }
-//        List<com.napredno.doggroom.domain.Service> services = serviceRepository
-//                .findAllById(() -> postAppointmentDTO.getServiceIDs().iterator());
         List<com.napredno.doggroom.domain.Service> services = new ArrayList<>();
         for(Long id : postedServiceIDs){{
             Optional<com.napredno.doggroom.domain.Service> optService = serviceRepository.findById(id);
@@ -127,17 +129,17 @@ public class AppointmentService {
 
         a.setServices(services);
 
-        // Calculating total duration
+        //-- Calculating total duration --//
         int totalDuration = 0;
         for (com.napredno.doggroom.domain.Service service: services) {totalDuration += service.getDuration();}
         a.setTotalDuration(totalDuration);
 
-        // Calculating total fee
+        //-- Calculating total fee --//
         BigDecimal totalFee = BigDecimal.valueOf(0);
         for (com.napredno.doggroom.domain.Service service: services) {totalFee = totalFee.add(service.getFee());}
         a.setTotalFee(totalFee);
 
-        // Increase appointments number for dog's owner
+        //-- Increase appointments number for dog's owner --//
         Person p = d.get().getPerson();
         p.setAppointmentNumber(p.getAppointmentNumber() + 1);
         personRepository.save(p);
@@ -152,6 +154,19 @@ public class AppointmentService {
         for (com.napredno.doggroom.domain.Service service :newAppointment.getServices())
             responseServices.add(service.getServiceID());
         responseAppointment.setServiceIDs(responseServices);
+
+        //-- JSON --//
+        String path = "C:\\Users\\ANA\\Desktop\\json\\appointments\\";
+        try (PrintWriter out = new PrintWriter(path + "appointment_" + newAppointment.getAppointmentID() + ".json");
+             PrintWriter out2 = new PrintWriter(new FileOutputStream(path + "all_appointments.json", true))
+        ) {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+                    .setPrettyPrinting()
+                    .create();
+            out.write(gson.toJson(responseAppointment));
+            out2.append(gson.toJson(responseAppointment));
+        } catch (IOException e) { e.printStackTrace(); }
 
         return responseAppointment;
     }
@@ -169,11 +184,16 @@ public class AppointmentService {
             throw new IllegalArgumentException("Appointment with ID " + appointmentID + "does not exist");
         }
 
-        // Decrease number of appointments for a person after cancelling appointment
+        //-- Decrease number of appointments for a person after cancelling appointment --//
         Optional<Dog> dog = dogRepository.findById(appointmentRepository.findById(appointmentID).get().getDog().getDogID());
         Person person = dog.get().getPerson();
         person.setAppointmentNumber(person.getAppointmentNumber() - 1);
         personRepository.save(person);
+
+        //-- Deleting the file --//
+        String path = "C:\\Users\\ANA\\Desktop\\json\\appointments\\";
+        File file = new File(path + "appointment_" + appointmentID + ".json");
+        file.delete();
 
         appointmentRepository.deleteById(appointmentID);
     }
