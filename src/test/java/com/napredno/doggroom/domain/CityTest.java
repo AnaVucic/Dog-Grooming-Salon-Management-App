@@ -77,4 +77,36 @@ class CityTest {
         assertTrue(s.contains("Beograd"));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "11000, 11000, Beograd, Beograd, true",
+            "11000, 21000, Beograd, Beograd, false",
+            "11000, 11000, Beograd, Novi Sad, false",
+    })
+    void testEquals(String zipCode1, String zipCode2,
+                    String name1, String name2,
+                    boolean equals) {
+        c.setZipCode(zipCode1);
+        c.setName(name1);
+
+        City c2 = new City(zipCode2, name2);
+
+        assertEquals(equals, c.equals(c2));
+    }
+
+    @Test
+    void testEqualsNull() {
+        assertFalse(c.equals(null));
+    }
+
+    @Test
+    void testEqualsOneObject() {
+        assertTrue(c.equals(c));
+    }
+
+    @Test
+    void testEqualsDifferentClass() {
+        assertFalse(c.equals(new Exception()));
+    }
+
 }

@@ -99,12 +99,18 @@ public class Appointment {
      * @param totalDuration Appointment's total duration as int
      */
     public Appointment(Long appointmentID, LocalDateTime dateTime, Dog dog, Salon salon, BigDecimal totalFee, int totalDuration) {
-        this.appointmentID = appointmentID;
-        this.dateTime = dateTime;
-        this.dog = dog;
-        this.salon = salon;
-        this.totalFee = totalFee;
-        this.totalDuration = totalDuration;
+//        this.appointmentID = appointmentID;
+//        this.dateTime = dateTime;
+//        this.dog = dog;
+//        this.salon = salon;
+//        this.totalFee = totalFee;
+//        this.totalDuration = totalDuration;
+        setAppointmentID(appointmentID);
+        setDateTime(dateTime);
+        setDog(dog);
+        setSalon(salon);
+        setTotalFee(totalFee);
+        setTotalDuration(totalDuration);
     }
 
     /**
@@ -116,11 +122,11 @@ public class Appointment {
      * @param totalDuration Appointment's total duration as int
      */
     public Appointment(LocalDateTime dateTime, Dog dog, Salon salon, BigDecimal totalFee, int totalDuration) {
-        this.dateTime = dateTime;
-        this.dog = dog;
-        this.salon = salon;
-        this.totalFee = totalFee;
-        this.totalDuration = totalDuration;
+        setDateTime(dateTime);
+        setDog(dog);
+        setSalon(salon);
+        setTotalFee(totalFee);
+        setTotalDuration(totalDuration);
     }
 
     /**

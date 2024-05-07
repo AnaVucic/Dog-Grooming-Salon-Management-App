@@ -51,7 +51,7 @@ public class Person {
      * Number of appointments that a person has scheduled as int.
      * Default value is 0.
      */
-    private int appointmentNumber;
+    private int appointmentNumber = 0;
 
     /**
      * Set of dogs owned by a person.
@@ -75,11 +75,15 @@ public class Person {
      * @param contactNumber Person's contact number as String.
      */
     public Person(Long personID, String firstname, String lastname, String contactNumber) {
-        this.personID = personID;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.contactNumber = contactNumber;
-        this.appointmentNumber = 0;
+//        this.personID = personID;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.contactNumber = contactNumber;
+//        this.appointmentNumber = 0;
+        setPersonID(personID);
+        setFirstname(firstname);
+        setLastname(lastname);
+        setContactNumber(contactNumber);
     }
 
     /**
@@ -89,9 +93,12 @@ public class Person {
      * @param contactNumber Person's contact number as String.
      */
     public Person(String firstname, String lastname, String contactNumber) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.contactNumber = contactNumber;
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.contactNumber = contactNumber;
+        setFirstname(firstname);
+        setLastname(lastname);
+        setContactNumber(contactNumber);
     }
 
     /**
@@ -120,8 +127,8 @@ public class Person {
      * Sets person's first name.
      * @param firstname Person's first name
      * @throws NullPointerException First name is null
-     * @throws IllegalArgumentException First name is an empty String
-     * @throws IllegalArgumentException First name is not of length 2-50
+     * @throws IllegalArgumentException First name is an empty String,<br>
+     * First name is not of length 2-50
      */
     public void setFirstname(String firstname) {
         if (firstname == null)
@@ -143,8 +150,8 @@ public class Person {
      * Sets person's first name.
      * @param lastname Person's last name
      * @throws NullPointerException Last name is null
-     * @throws IllegalArgumentException Last name is an empty String
-     * @throws IllegalArgumentException Last name is not of length 2-50
+     * @throws IllegalArgumentException Last name is an empty String,<br>
+     * Last name is not of length 2-50
      */
     public void setLastname(String lastname) {
         if (lastname == null)
@@ -168,8 +175,8 @@ public class Person {
      * Sets person's contact number.
      * @param contactNumber Person's contact number
      * @throws NullPointerException Contact number is null
-     * @throws IllegalArgumentException Contact number is an empty String
-     * @throws IllegalArgumentException Contact number is not is format ### ######[#]
+     * @throws IllegalArgumentException Contact number is an empty String,<br>
+     * Contact number is not is format ### ######[#]
      */
     public void setContactNumber(String contactNumber) {
         if (contactNumber == null)

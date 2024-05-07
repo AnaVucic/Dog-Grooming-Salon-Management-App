@@ -84,4 +84,39 @@ class SalonTest {
         assertTrue(str.contains("Beograd"));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "1, 1, Beogradska 23, Beogradska 23, true",
+            "1, 2, Beogradska 23, Beogradska 23, false",
+            "1, 1, Beogradska 23, Resavska 23, false"
+    })
+    void testEquals(Long ID1, Long ID2,
+                    String address1, String address2,
+                    boolean equals) {
+        City city = new City("11000", "Beograd");
+
+        s.setSalonID(ID1);
+        s.setAddress(address1);
+        s.setCity(city);
+
+        Salon s2 = new Salon(ID2, address2, city);
+
+        assertEquals(equals, s.equals(s2));
+    }
+
+    @Test
+    void testEqualsNull() {
+        assertFalse(s.equals(null));
+    }
+
+    @Test
+    void testEqualsOneObject() {
+        assertTrue(s.equals(s));
+    }
+
+    @Test
+    void testEqualsDifferentClass() {
+        assertFalse(s.equals(new Exception()));
+    }
+
 }

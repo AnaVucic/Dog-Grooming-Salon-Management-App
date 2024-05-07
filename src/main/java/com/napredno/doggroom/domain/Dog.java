@@ -63,10 +63,14 @@ public class Dog {
      * @param name Dog's name as a String
      */
     public Dog(Long dogID, Person person, Breed breed, String name) {
-        this.dogID = dogID;
-        this.person = person;
-        this.breed = breed;
-        this.name = name;
+//        this.dogID = dogID;
+//        this.person = person;
+//        this.breed = breed;
+//        this.name = name;
+        setDogID(dogID);
+        setPerson(person);
+        setBreed(breed);
+        setName(name);
     }
 
     /**
@@ -76,9 +80,12 @@ public class Dog {
      * @param name Dog's name as a String
      */
     public Dog(Person person, Breed breed, String name) {
-        this.person = person;
-        this.breed = breed;
-        this.name = name;
+//        this.person = person;
+//        this.breed = breed;
+//        this.name = name;
+        setPerson(person);
+        setBreed(breed);
+        setName(name);
     }
 
     /**
@@ -150,8 +157,8 @@ public class Dog {
      * Sets dog's name as String.
      * @param name Dog's name as String
      * @throws NullPointerException Dog name is null
-     * @throws IllegalArgumentException Dog name is an empty String
-     * @throws IllegalArgumentException Dog name is not af length 2-50
+     * @throws IllegalArgumentException Dog name is an empty String,<br>
+     * Dog name is not af length 2-50
      */
     public void setName(String name) {
         if (name == null)

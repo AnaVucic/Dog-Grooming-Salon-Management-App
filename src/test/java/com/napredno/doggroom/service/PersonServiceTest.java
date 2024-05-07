@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -69,33 +67,6 @@ class PersonServiceTest {
         Person person = persons.get(0);
         when(personRepository.findByContactNumber(Mockito.any(String.class)))
                 .thenReturn(Optional.of(person));
-        assertThrows(IllegalArgumentException.class,
-                () -> personService.addPerson(person));
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "A", "a"
-    })
-    void addPersonFirstnameTooShort(String firstname) {
-        Person person = new Person(1L, firstname, "Vucic", "060 000000");
-        assertThrows(IllegalArgumentException.class,
-                () -> personService.addPerson(person));
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "A", "a"
-    })
-    void addPersonLastnameTooShort(String lastname) {
-        Person person = new Person(1L, "Ana", lastname, "060 000000");
-        assertThrows(IllegalArgumentException.class,
-                () -> personService.addPerson(person));
-    }
-
-    @Test
-    void addPersonInvalidContactNumber() {
-        Person person = new Person(1L, "Ana", "Vucic", "060123456");
         assertThrows(IllegalArgumentException.class,
                 () -> personService.addPerson(person));
     }

@@ -71,10 +71,14 @@ public class Service {
      * @param duration Service's duration as int
      */
     public Service(Long serviceID, String name, BigDecimal fee, int duration) {
-        this.serviceID = serviceID;
-        this.name = name;
-        this.fee = fee;
-        this.duration = duration;
+//        this.serviceID = serviceID;
+//        this.name = name;
+//        this.fee = fee;
+//        this.duration = duration;
+        setServiceID(serviceID);
+        setName(name);
+        setFee(fee);
+        setDuration(duration);
     }
 
     /**
@@ -84,9 +88,12 @@ public class Service {
      * @param duration Service's duration as int
      */
     public Service(String name, BigDecimal fee, int duration) {
-        this.name = name;
-        this.fee = fee;
-        this.duration = duration;
+//        this.name = name;
+//        this.fee = fee;
+//        this.duration = duration;
+        setName(name);
+        setFee(fee);
+        setDuration(duration);
     }
 
     /**
@@ -136,8 +143,8 @@ public class Service {
      * Sets service's name.
      * @param name Service's name as String
      * @throws NullPointerException Service name is null
-     * @throws IllegalArgumentException Service name is an empty String
-     * @throws IllegalArgumentException Service name is not of length 2-20
+     * @throws IllegalArgumentException Service name is an empty String,<br>
+     * Service name is not of length 2-20
      */
     public void setName(String name) {
         if (name == null)

@@ -48,25 +48,11 @@ public class PersonService {
      * @return Person data that was saved in database
      *
      * @throws IllegalArgumentException person's contact number already exists in database
-     * @throws IllegalArgumentException person's first name is null or less than 2 characters long
-     * @throws IllegalArgumentException person's last name is null or less than 2 characters long
-     * @throws IllegalArgumentException person's contact number is not in format ### ######[#]
      */
     public Person addPerson(Person person) {
         Optional<Person> p = personRepository.findByContactNumber(person.getContactNumber());
 
-        if (p.isPresent()){
-            throw new IllegalArgumentException("Person with the same contact number already exists!");
-        }
-        if(person.getFirstname() == null || person.getFirstname().length() < 2) {
-            throw new IllegalArgumentException("Person's firstname length must be at least two characters!");
-        }
-        if(person.getLastname() == null || person.getLastname().length() < 2) {
-            throw new IllegalArgumentException("Person's lastname length must be at least two characters!");
-        }
-        if(person.getContactNumber() == null || !person.getContactNumber().matches("\\d{3}\\s\\d{6,7}")){
-            throw new IllegalArgumentException("Person's contact number must be of format ### ######[#]!");
-        }
+        if (p.isPresent()) throw new IllegalArgumentException("Person with the same contact number already exists!");
 
         Person newPerson = personRepository.save(person);
 

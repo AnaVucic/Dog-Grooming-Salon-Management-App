@@ -99,4 +99,41 @@ class ServiceTest {
         assertTrue(str.contains("67"));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "1, 1, Trimming, Trimming, 1000, 1000, 60, 60, true",
+            "1, 2, Trimming, Trimming, 1000, 1000, 60, 60, false",
+            "1, 1, Trimming, Bathing, 1000, 1000, 60, 60, false",
+            "1, 1, Trimming, Trimming, 1000, 2000, 60, 60, false",
+            "1, 1, Trimming, Trimming, 1000, 1000, 60, 90, false",
+    })
+    void testEquals(Long ID1, Long ID2,
+                    String name1, String name2,
+                    BigDecimal fee1, BigDecimal fee2,
+                    int duration1, int duration2,
+                    boolean equals) {
+        s.setServiceID(ID1);
+        s.setName(name1);
+        s.setFee(fee1);
+        s.setDuration(duration1);
+
+        Service s2 = new Service(ID2, name2, fee2, duration2);
+
+        assertEquals(equals, s.equals(s2));
+    }
+
+    @Test
+    void testEqualsNull() {
+        assertFalse(s.equals(null));
+    }
+
+    @Test
+    void testEqualsOneObject() {
+        assertTrue(s.equals(s));
+    }
+
+    @Test
+    void testEqualsDifferentClass() {
+        assertFalse(s.equals(new Exception()));
+    }
 }

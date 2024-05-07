@@ -56,9 +56,8 @@ public class DogService {
      *
      * @return Dog data that was saved in database
      *
-     * @throws IllegalArgumentException person with  given ID cannot be found in database
-     * @throws IllegalArgumentException breed with  given ID cannot be found in database
-     * @throws IllegalArgumentException dog's name is null or less than 2 characters long
+     * @throws IllegalArgumentException Person with  given ID cannot be found in database,<br>
+     * Breed with  given ID cannot be found in database
      */
     public Dog addDog(String name, Long personID, Long breedID){
         Optional<Person> p = personRepository.findById(personID);
@@ -69,9 +68,6 @@ public class DogService {
         }
         if (b.isEmpty()){
             throw new IllegalArgumentException("Breed with id " + breedID + " does not exist!");
-        }
-        if(name == null || name.length() < 2){
-            throw new IllegalArgumentException("Dog's name length must be at least two characters!");
         }
 
         Dog d = new Dog();

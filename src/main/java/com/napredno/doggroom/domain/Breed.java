@@ -1,6 +1,7 @@
 package com.napredno.doggroom.domain;
 
 import jakarta.persistence.*;
+import java.util.Objects;
 
 /**
  * Represents a breed that is associated with on object of type Dog.
@@ -11,8 +12,6 @@ import jakarta.persistence.*;
  * @author Ana Vucic
  * @since 0.1.0
  */
-import java.util.Objects;
-
 @Entity
 public class Breed {
 
@@ -41,8 +40,10 @@ public class Breed {
      * @param name Breed's name as String
      */
     public Breed(Long breedID, String name) {
-        this.breedID = breedID;
-        this.name = name;
+//        this.breedID = breedID;
+//        this.name = name;
+        setBreedID(breedID);
+        setName(name);
     }
 
 
@@ -51,7 +52,8 @@ public class Breed {
      * @param name Breed's name as String
      */
     public Breed(String name) {
-        this.name = name;
+//        this.name = name;
+        setName(name);
     }
 
     /**
@@ -85,8 +87,8 @@ public class Breed {
      * Sets breed's name.
      * @param name Breed's name as String
      * @throws NullPointerException Breed name is null
-     * @throws IllegalArgumentException Breed name is an empty String
-     * @throws IllegalArgumentException Breed name is not of length 3-30
+     * @throws IllegalArgumentException Breed name is an empty String,<br>
+     * Breed name is not of length 3-30
      */
     public void setName(String name) {
         if (name == null)

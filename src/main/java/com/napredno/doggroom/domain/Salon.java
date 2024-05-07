@@ -51,9 +51,12 @@ public class Salon {
      * @param city Salon's city of type City
      */
     public Salon(Long salonID, String address, City city) {
-        this.salonID = salonID;
-        this.address = address;
-        this.city = city;
+//        this.salonID = salonID;
+//        this.address = address;
+//        this.city = city;
+        setSalonID(salonID);
+        setAddress(address);
+        setCity(city);
     }
 
     /**
@@ -62,8 +65,10 @@ public class Salon {
      * @param city Salon's city of type City
      */
     public Salon(String address, City city) {
-        this.address = address;
-        this.city = city;
+//        this.address = address;
+//        this.city = city;
+        setAddress(address);
+        setCity(city);
     }
 
     /**
@@ -97,8 +102,8 @@ public class Salon {
      * Sets salon's ID.
      * @param address Salon's address as String
      * @throws NullPointerException Address is null
-     * @throws IllegalArgumentException Address is an empty String
-     * @throws IllegalArgumentException Address is not of length 5-50
+     * @throws IllegalArgumentException Address is an empty String,<br>
+     * Address is not of length 5-50
      */
     public void setAddress(String address) {
         if (address == null)
